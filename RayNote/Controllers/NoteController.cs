@@ -33,6 +33,20 @@ namespace RayNote.Controllers
             }
         }
 
+        [HttpGet("owner/{id}")]
+        public IActionResult GetByOwnerId(int id)
+        {
+            try
+            {
+                return new JsonResult(_dbContext.Note.Where(note => note.OwnerId == id).ToList());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody]Note entity)
         {
