@@ -7,8 +7,15 @@ namespace RayNote.Models
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required, MinLength(8)]
         public string Account { get; set; }
+        [Required, MinLength(8)]
         public string Password { get; set; }
+        public override string ToString()
+        {
+            return Id.ToString() + "/" + Name + "/" + Account + "/" + Password;
+        }
     }
 }
