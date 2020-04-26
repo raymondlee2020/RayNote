@@ -1,24 +1,65 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import store from '@/store'
+import { CreateNote, Dashboard, DetailNote, Login, SignUp, UpdateInfo, UpdateNote } from '@/views'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '',
+    redirect: '/Dashboard'
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/Login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/CreateNote',
+    name: 'CreateNote',
+    component: CreateNote,
+    beforeEnter: guard
+  },
+  {
+    path: '/Dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    beforeEnter: guard
+  },
+  {
+    path: '/DetailNote',
+    name: 'DetailNote',
+    component: DetailNote,
+    beforeEnter: guard
+  },
+  {
+    path: '/SignUp',
+    name: 'SignUp',
+    component: SignUp,
+    beforeEnter: guard
+  },
+  {
+    path: '/UpdateInfo',
+    name: 'UpdateInfo',
+    component: UpdateInfo,
+    beforeEnter: guard
+  },
+  {
+    path: '/UpdateNote',
+    name: 'UpdateNote',
+    component: UpdateNote,
+    beforeEnter: guard
   }
 ]
+
+function guard(to, form, next) {
+  if (store.state.isLogin) {
+    next()
+  } else {
+    next({ path: '/login' })
+  }
+}
 
 const router = new VueRouter({
   mode: 'history',
