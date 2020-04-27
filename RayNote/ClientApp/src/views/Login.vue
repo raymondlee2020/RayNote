@@ -15,14 +15,18 @@
         </router-link>
       </el-form-item>
     </el-form>
+    <Footer />
   </div>
 </template>
 
 <script>
-import { LargeLogo } from "@/components";
+import { LargeLogo, Footer } from "@/components";
 export default {
   name: "Login",
-  components: { LargeLogo },
+  components: {
+    LargeLogo,
+    Footer
+  },
   data() {
     return {
       loginForm: {},
@@ -38,12 +42,14 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/styles/colors";
 .login-root {
+  position: relative;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: -30px;
+  padding-bottom: 35px;
+  box-sizing: border-box;
   .link {
     text-decoration: none;
     margin-left: 20px;
