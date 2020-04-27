@@ -14,11 +14,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/styles/colors";
+@import "../assets/styles/layouts";
 .large-logo-root {
-  display: flex;
+  @extend %flex-center;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   > .logo {
     color: #fff;
     font-size: 100px;

@@ -41,13 +41,12 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/styles/colors";
+@import "../assets/styles/layouts";
 .login-root {
+  @extend %flex-center;
   position: relative;
   height: 100vh;
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding-bottom: 35px;
   box-sizing: border-box;
   .link {
