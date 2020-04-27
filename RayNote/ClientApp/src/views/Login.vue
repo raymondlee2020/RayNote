@@ -3,16 +3,25 @@
     <LargeLogo />
     <el-form label-position="left" label-width="80px" :model="loginForm">
       <el-form-item label="Account">
-        <el-input v-model="loginForm.account" placeholder="Please enter your account" @keyup.enter.native="login"></el-input>
+        <el-input
+          v-model="loginForm.account"
+          placeholder="Please enter your account"
+          @keyup.enter.native="login"
+        ></el-input>
       </el-form-item>
       <el-form-item label="Password">
-        <el-input v-model="loginForm.password" placeholder="Please enter your password" @keyup.enter.native="login"></el-input>
+        <el-input
+          v-model="loginForm.password"
+          placeholder="Please enter your password"
+          @keyup.enter.native="login"
+          type="password"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button plain type="primary" :loading="loading" @click="login">Login</el-button>
-        <router-link class="link" to="/SignUp">
+        <span class="link" @click="signUp()">
           <el-link>Sign up</el-link>
-        </router-link>
+        </span>
       </el-form-item>
     </el-form>
     <Footer />
@@ -40,15 +49,18 @@ export default {
   },
   methods: {
     login: async function() {
-      console.log("HERE")
-      const data ={
+      console.log("HERE");
+      const data = {
         account: this.loginForm.account,
         password: this.loginForm.password
-      }
+      };
       const result = await PostData(`${BaseUrl}/api/user/login`, data);
-      console.log(result)
+      console.log(result);
       this.$store.commit("setLogin", result);
-      this.$router.push("Dashboard")
+      this.$router.push("Dashboard");
+    },
+    signUp: function() {
+      this.$router.push("SignUp");
     }
   }
 };

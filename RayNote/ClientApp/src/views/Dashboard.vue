@@ -60,7 +60,7 @@ export default {
       const result = await DeleteData(`${BaseUrl}/api/note/${id}`);
       console.log(result);
       const notes = await GetData(
-        `${BaseUrl}/api/note/owner/${this.$store.state.id}`
+        `${BaseUrl}/api/note/owner/${this.$store.state.id}`, this.$store.state.token
       );
       this.notes = notes;
     }

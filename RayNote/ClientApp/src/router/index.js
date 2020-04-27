@@ -36,8 +36,7 @@ const routes = [
   {
     path: '/SignUp',
     name: 'SignUp',
-    component: SignUp,
-    beforeEnter: guard
+    component: SignUp
   },
   {
     path: '/UpdateInfo',
