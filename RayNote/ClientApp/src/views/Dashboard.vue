@@ -2,7 +2,10 @@
   <div class="dashboard-root">
     <SmallLogo />
     <GreetBar />
-    <div class="title">Notes</div>
+    <div class="title">
+      <div>Notes</div>
+      <i class="el-icon-plus" style="cursor: pointer;" @click.native="add()"></i>
+    </div>
     <el-row :gutter="20" class="notes">
       <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
         <el-card class="note" @click.native="detail()">
@@ -45,7 +48,8 @@ export default {
   methods: {
     detail() {
       console.log("detail");
-    }
+    },
+    add() {}
   }
 };
 </script>
@@ -58,7 +62,7 @@ export default {
   > .title {
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     color: $grey;
     font-size: 30px;
     font-weight: 700;
@@ -74,6 +78,7 @@ export default {
     width: 100%;
     height: 250px;
     margin-bottom: 20px;
+    cursor: pointer;
   }
   .clearfix:before,
   .clearfix:after {
