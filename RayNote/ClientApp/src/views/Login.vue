@@ -2,7 +2,7 @@
   <div class="login-root">
     <LargeLogo />
     <el-form label-position="left" label-width="80px" :model="loginForm">
-      <el-form-item label="Account" style="color: #fff;">
+      <el-form-item label="Account">
         <el-input v-model="loginForm.account"></el-input>
       </el-form-item>
       <el-form-item label="Password">
