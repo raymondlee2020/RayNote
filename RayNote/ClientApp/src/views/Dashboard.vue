@@ -2,7 +2,7 @@
   <div class="dashboard-root">
     <SmallLogo />
     <GreetBar />
-    <div class="title">Dashboard</div>
+    <div class="title">Notes</div>
     <el-row :gutter="20" class="notes">
       <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
         <el-card class="note">
