@@ -4,21 +4,27 @@
     <GreetBar />
     <div class="title">
       <div>Notes</div>
-      <i class="el-icon-plus" style="cursor: pointer;" @click="add()"></i>
+      <i class="el-icon-plus" style="cursor: pointer;" @click="addNote()"></i>
     </div>
     <el-row :gutter="20" class="notes">
       <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="note in notes" :key="note.id">
-        <el-card class="note" @click.native="detail(note.id)">
+        <el-card class="note">
           <div slot="header" class="clearfix">
             <span class="note-title">{{note.title}}</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" />
+            <el-button
+              style="float: right; padding: 3px 0"
+              type="text"
+              icon="el-icon-delete"
+              @click="deleteNote(note.id)"
+            />
             <el-button
               style="float: right; padding: 3px 0; margin-right: 10px;"
               type="text"
               icon="el-icon-edit"
+              @click="updateNote(note.id)"
             />
           </div>
-          <div>{{note.content}}</div>
+          <div @click="detail(note.id)">{{note.content}}</div>
         </el-card>
       </el-col>
     </el-row>
@@ -27,7 +33,7 @@
 
 <script>
 import BaseUrl from "@/constants";
-import { GetData, PostData } from "@/utils";
+import { GetData, PostData, DeleteData } from "@/utils";
 import { SmallLogo, GreetBar } from "@/components";
 export default {
   name: "Dashboard",
@@ -42,11 +48,22 @@ export default {
   },
   methods: {
     detail(id) {
-      this.$router.push(`DetailNote?id=${id}`)
+      this.$router.push(`DetailNote?id=${id}`);
     },
-    add() {
-      console.log("add");
+    addNote() {
+      this.$router.push("CreateNote");
     },
+    updateNote: function(id) {
+      this.$router.push(`UpdateNote?id=${id}`);
+    },
+    deleteNote: async function(id) {
+      const result = await DeleteData(`${BaseUrl}/api/note/${id}`);
+      console.log(result);
+      const notes = await GetData(
+        `${BaseUrl}/api/note/owner/${this.$store.state.id}`
+      );
+      this.notes = notes;
+    }
   },
   mounted: async function() {
     const notes = await GetData(

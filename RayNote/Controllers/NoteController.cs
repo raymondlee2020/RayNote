@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using RayNote.DataAccessLayer;
 using RayNote.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.IO;
 
 namespace RayNote.Controllers
 {
@@ -28,7 +30,8 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }
@@ -42,7 +45,8 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }
@@ -60,7 +64,8 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }
@@ -82,7 +87,8 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }
@@ -103,7 +109,8 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }

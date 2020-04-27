@@ -1,7 +1,7 @@
 <template>
   <div class="greet-bar-root">
     <div class="greet">{{greet}}</div>
-    <div class="name">Raymond</div>
+    <div class="name">{{name}}</div>
   </div>
 </template>
 
@@ -9,11 +9,10 @@
 export default {
   name: "GreetBar",
   components: {},
-  props: {
-    name: String
-  },
+  props: {},
   data() {
     return {
+      name: this.$store.state.name,
       greet: ""
     };
   },

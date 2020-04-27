@@ -5,21 +5,25 @@
     <div class="note">
       <el-card class="card">
         <div slot="header" class="clearfix">
-          <span class="note-title">Card name</span>
-          <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" />
+          <span class="note-title">{{title}}</span>
+          <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" @click="deleteNote()" />
           <el-button
             style="float: right; padding: 3px 0; margin-right: 10px;"
             type="text"
             icon="el-icon-edit"
+            @click="updateNote()"
           />
         </div>
+        <div>{{content}}</div>
       </el-card>
-      <div class="time">Last Modified Time: 2020/04/27</div>
+      <div class="time">{{time}}</div>
     </div>
   </div>
 </template>
 
 <script>
+import BaseUrl from "@/constants";
+import { GetData, PostData, DeleteData, DateFormat } from "@/utils";
 import { SmallLogo, GreetBar } from "@/components";
 export default {
   name: "DetailNote",
@@ -27,8 +31,31 @@ export default {
     SmallLogo,
     GreetBar
   },
-  mounted(){
-    console.log(this.$route.query.id);
+  data() {
+    return {
+      title: "",
+      content: "",
+      time: ""
+    };
+  },
+  mounted: async function() {
+    const result = await GetData(`${BaseUrl}/api/note/${this.$route.query.id}`);
+    this.title = result.title;
+    this.content = result.content;
+    const timestamp = new Date(result.timestamp);
+    this.time = timestamp.format("yyyy/MM/dd hh:mm:ss")
+  },
+  methods: {
+    updateNote: function() {
+      this.$router.push(`UpdateNote?id=${this.$route.query.id}`);
+    },
+    deleteNote: async function() {
+      const result = await DeleteData(
+        `${BaseUrl}/api/note/${this.$route.query.id}`
+      );
+      console.log(result);
+      this.$router.push("Dashboard");
+    }
   }
 };
 </script>

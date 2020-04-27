@@ -7,7 +7,7 @@
         <el-input v-model="noteForm.title" placeholder="Note Title"></el-input>
       </el-form-item>
       <el-form-item label="Content">
-        <el-input v-model="noteForm.account" type="textarea" rows="16" placeholder="Note Content"></el-input>
+        <el-input v-model="noteForm.content" type="textarea" rows="16" placeholder="Note Content"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -17,12 +17,15 @@
           :loading="loading"
           @click="create()"
         >Create</el-button>
+        <el-button class="back-btn" plain type="info" @click="back()">Cancel</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import BaseUrl from "@/constants";
+import { GetData, PostData } from "@/utils";
 import { SmallLogo, GreetBar } from "@/components";
 export default {
   name: "CreateNote",
@@ -32,8 +35,29 @@ export default {
   },
   data() {
     return {
-      noteForm: {}
+      noteForm: {
+        title: "",
+        content: ""
+      },
+      loading: false
     };
+  },
+  methods: {
+    create: async function() {
+      const newNote = {
+        title: this.noteForm.title,
+        content: this.noteForm.content,
+        timestamp: Date.now(),
+        ownerId: this.$store.state.id
+      };
+      console.log("data", newNote);
+      const result = await PostData(`${BaseUrl}/api/note`, newNote);
+      console.log(result);
+      this.$router.push("Dashboard");
+    },
+    back: function() {
+      this.$router.push("Dashboard");
+    }
   }
 };
 </script>

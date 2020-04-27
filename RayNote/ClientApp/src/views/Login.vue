@@ -3,10 +3,10 @@
     <LargeLogo />
     <el-form label-position="left" label-width="80px" :model="loginForm">
       <el-form-item label="Account">
-        <el-input v-model="loginForm.account" placeholder="Please enter your account"></el-input>
+        <el-input v-model="loginForm.account" placeholder="Please enter your account" @keyup.enter.native="login"></el-input>
       </el-form-item>
       <el-form-item label="Password">
-        <el-input v-model="loginForm.password" placeholder="Please enter your password"></el-input>
+        <el-input v-model="loginForm.password" placeholder="Please enter your password" @keyup.enter.native="login"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button plain type="primary" :loading="loading" @click="login">Login</el-button>
@@ -45,7 +45,7 @@ export default {
         account: this.loginForm.account,
         password: this.loginForm.password
       }
-      const result = await PostData(`${BaseUrl}/api/User/login`, data);
+      const result = await PostData(`${BaseUrl}/api/user/login`, data);
       console.log(result)
       this.$store.commit("setLogin", result);
       this.$router.push("Dashboard")
