@@ -3,3 +3,11 @@
   align-items: center;
   justify-content: center;
 }
+%flex-1020{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1020px;
+  margin: 0 auto;
+}
