@@ -9,8 +9,13 @@
       <el-form-item label="Password">
         <el-input v-model="loginForm.password"></el-input>
       </el-form-item>
+      <el-form-item>
+        <el-button plain type="primary" :loading="loading" @click="login">Login</el-button>
+        <router-link class="link" to="/SignUp">
+          <el-link>Sign up</el-link>
+        </router-link>
+      </el-form-item>
     </el-form>
-    <el-button plain type="primary" :loading="loading" @click="login">Login</el-button>
   </div>
 </template>
 
@@ -53,9 +58,9 @@ export default {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     margin-bottom: 35px;
   }
-  label {
-    color: #fff;
-    font-size: 20px;
+  .link {
+    text-decoration: none;
+    margin-left: 20px;
   }
 }
 @media screen and (max-width: 768px) {
