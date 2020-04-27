@@ -7,10 +7,10 @@
       <i class="el-icon-plus" style="cursor: pointer;" @click="add()"></i>
     </div>
     <el-row :gutter="20" class="notes">
-      <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-        <el-card class="note" @click.native="detail()">
+      <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="note in notes" :key="note.id">
+        <el-card class="note" @click.native="detail(note.id)">
           <div slot="header" class="clearfix">
-            <span class="note-title">Card name</span>
+            <span class="note-title">{{note.title}}</span>
             <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" />
             <el-button
               style="float: right; padding: 3px 0; margin-right: 10px;"
@@ -18,19 +18,7 @@
               icon="el-icon-edit"
             />
           </div>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-        <el-card class="note">
-          <div slot="header" class="clearfix">
-            <span class="note-title">Card name</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" />
-            <el-button
-              style="float: right; padding: 3px 0; margin-right: 10px;"
-              type="text"
-              icon="el-icon-edit"
-            />
-          </div>
+          <div>{{note.content}}</div>
         </el-card>
       </el-col>
     </el-row>
@@ -38,6 +26,8 @@
 </template>
 
 <script>
+import BaseUrl from "@/constants";
+import { GetData, PostData } from "@/utils";
 import { SmallLogo, GreetBar } from "@/components";
 export default {
   name: "Dashboard",
@@ -45,15 +35,24 @@ export default {
     SmallLogo,
     GreetBar
   },
+  data() {
+    return {
+      notes: []
+    };
+  },
   methods: {
-    detail() {
-      console.log("detail");
+    detail(id) {
+      this.$router.push(`DetailNote?id=${id}`)
     },
     add() {
-      console.log("add");}
+      console.log("add");
+    },
   },
-  mounted() {
-    console.log(`Dashboard: ${JSON.stringify(this.$store.state)}`);
+  mounted: async function() {
+    const notes = await GetData(
+      `${BaseUrl}/api/note/owner/${this.$store.state.id}`
+    );
+    this.notes = notes;
   }
 };
 </script>

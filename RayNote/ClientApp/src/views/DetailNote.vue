@@ -26,6 +26,9 @@ export default {
   components: {
     SmallLogo,
     GreetBar
+  },
+  mounted(){
+    console.log(this.$route.query.id);
   }
 };
 </script>
