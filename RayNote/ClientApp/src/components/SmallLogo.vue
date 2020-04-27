@@ -41,10 +41,9 @@ export default {
   .small-logo-root {
     > .logo {
       font-size: 30px;
-      // margin: 5px;
     }
     > .slogan {
-      display: none;
+      text-shadow: 0.1px 0.1px 0.1px rgba(0, 0, 0, 0.5);
     }
   }
 }

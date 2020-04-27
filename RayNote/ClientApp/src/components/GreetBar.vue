@@ -20,7 +20,6 @@ export default {
   mounted() {
     const now = new Date();
     const hour = now.getHours();
-    console.log(hour);
     if (hour >= 5 && hour < 12) {
       this.greet = "Good Morning, ";
     } else if (hour >= 12 && hour < 16) {
@@ -39,7 +38,7 @@ export default {
 @import "../assets/styles/layouts";
 .greet-bar-root {
   @extend %flex-center;
-  margin-top: 20px;
+  margin: 20px 0 30px;
   > .greet {
     color: #fff;
     font-size: 50px;
