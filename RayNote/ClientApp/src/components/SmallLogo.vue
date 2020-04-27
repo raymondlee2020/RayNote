@@ -26,6 +26,7 @@ export default {
     font-weight: 700;
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
     margin-bottom: 8px;
+    margin: 5px;
   }
   > .slogan {
     color: $grey;
@@ -33,14 +34,14 @@ export default {
     font-weight: 700;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     margin-bottom: 35px;
-    margin-left: 5px;
+    margin-left: 8px;
   }
 }
 @media screen and (max-width: 768px) {
   .small-logo-root {
     > .logo {
       font-size: 30px;
-      margin: 5px;
+      // margin: 5px;
     }
     > .slogan {
       display: none;

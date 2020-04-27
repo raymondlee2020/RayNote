@@ -1,14 +1,18 @@
 <template>
   <div class="dashboard-root">
     <SmallLogo />
+    <GreetBar />
   </div>
 </template>
 
 <script>
-import { SmallLogo } from "@/components";
+import { SmallLogo, GreetBar } from "@/components";
 export default {
   name: "Dashboard",
-  components: { SmallLogo }
+  components: {
+    SmallLogo,
+    GreetBar
+  }
 };
 </script>
 
