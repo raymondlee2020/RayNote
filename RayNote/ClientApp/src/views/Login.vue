@@ -10,6 +10,7 @@
         <el-input v-model="loginForm.password"></el-input>
       </el-form-item>
     </el-form>
+    <el-button plain type="primary" :loading="loading" @click="login">Login</el-button>
   </div>
 </template>
 
@@ -19,8 +20,12 @@ export default {
   components: {},
   data() {
     return {
-      loginForm: {}
+      loginForm: {},
+      loading: false
     };
+  },
+  methods: {
+    login() {}
   }
 };
 </script>
