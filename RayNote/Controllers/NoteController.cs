@@ -7,6 +7,10 @@ using RayNote.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.IO;
+using System.Security.Cryptography;
+using JWT;
+using JWT.Algorithms;
+using JWT.Serializers;
 
 namespace RayNote.Controllers
 {
@@ -15,10 +19,25 @@ namespace RayNote.Controllers
     public class NoteController : ControllerBase
     {
         private readonly RayNoteDbContext _dbContext;
+        private readonly string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+        private SHA256 sha256;
+        private IJwtEncoder jwtEncoder;
+        private IJwtDecoder jwtDecoder;
 
         public NoteController(RayNoteDbContext dbContext)
         {
             _dbContext = dbContext;
+
+            sha256 = SHA256.Create();
+
+            IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
+            IJsonSerializer serializer = new JsonNetSerializer();
+            IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+            jwtEncoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+
+            var provider = new UtcDateTimeProvider();
+            IJwtValidator validator = new JwtValidator(serializer, provider);
+            jwtDecoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
         }
 
         [HttpGet("{id}")]
@@ -37,11 +56,23 @@ namespace RayNote.Controllers
         }
 
         [HttpGet("owner/{id}")]
-        public IActionResult GetByOwnerId(int id)
+        public IActionResult GetByOwnerId(int id, [FromQuery]string token)
         {
             try
             {
+                var json = jwtDecoder.Decode(token, secret, verify: true);
+                Console.WriteLine(json);
                 return new JsonResult(_dbContext.Note.Where(note => note.OwnerId == id).ToList());
+            }
+            catch (TokenExpiredException)
+            {
+                Console.WriteLine("Token has expired");
+                return BadRequest();
+            }
+            catch (SignatureVerificationException)
+            {
+                Console.WriteLine("Token has invalid signature");
+                return BadRequest();
             }
             catch (Exception e)
             {

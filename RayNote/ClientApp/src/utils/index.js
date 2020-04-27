@@ -18,9 +18,9 @@ const PostData = async (url, data) => {
   }
 };
 
-const GetData = async (url) => {
+const GetData = async (url, token) => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${url}?token=${token}`);
     const responseJson = await response.json();
     return responseJson;
   } catch (error) {
