@@ -5,11 +5,15 @@
     <div class="title">Notes</div>
     <el-row :gutter="20" class="notes">
       <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-        <el-card class="note">
+        <el-card class="note" @click.native="detail()">
           <div slot="header" class="clearfix">
             <span class="note-title">Card name</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete"/>
-            <el-button style="float: right; padding: 3px 0; margin-right: 10px;" type="text" icon="el-icon-edit"/>
+            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" />
+            <el-button
+              style="float: right; padding: 3px 0; margin-right: 10px;"
+              type="text"
+              icon="el-icon-edit"
+            />
           </div>
         </el-card>
       </el-col>
@@ -17,8 +21,12 @@
         <el-card class="note">
           <div slot="header" class="clearfix">
             <span class="note-title">Card name</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete"/>
-            <el-button style="float: right; padding: 3px 0; margin-right: 10px;" type="text" icon="el-icon-edit"/>
+            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-delete" />
+            <el-button
+              style="float: right; padding: 3px 0; margin-right: 10px;"
+              type="text"
+              icon="el-icon-edit"
+            />
           </div>
         </el-card>
       </el-col>
@@ -33,6 +41,11 @@ export default {
   components: {
     SmallLogo,
     GreetBar
+  },
+  methods: {
+    detail() {
+      console.log("detail");
+    }
   }
 };
 </script>
@@ -59,7 +72,7 @@ export default {
   }
   .note {
     width: 100%;
-    height: 250px ;
+    height: 250px;
     margin-bottom: 20px;
   }
   .clearfix:before,
@@ -70,7 +83,7 @@ export default {
   .clearfix:after {
     clear: both;
   }
-  .note-title{
+  .note-title {
     float: left;
   }
 }

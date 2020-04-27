@@ -1,10 +1,10 @@
 <template>
   <div class="small-logo-root">
-    <div>
+    <div class="logo-container">
       <div class="logo">RayNote</div>
       <div class="slogan">Record Anything In Your Life</div>
     </div>
-    <el-button class="edit" type="primary">
+    <el-button class="edit" type="primary" v-if="showEdit">
       Edit Profile
       <i class="el-icon-edit"></i>
     </el-button>
@@ -14,7 +14,13 @@
 <script>
 export default {
   name: "SmallLogo",
-  components: {}
+  components: {},
+  props: {
+    showEdit: {
+      type: Boolean,
+      default: true
+    }
+  }
 };
 </script>
 
@@ -43,6 +49,11 @@ export default {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     margin-left: 8px;
   }
+  .logo-container {
+    @extend %flex-center;
+    flex-direction: column;
+    align-items: flex-start;
+  }
   > .edit {
     float: right;
   }
@@ -54,6 +65,9 @@ export default {
     }
     .slogan {
       text-shadow: 0.1px 0.1px 0.1px rgba(0, 0, 0, 0.5);
+    }
+    .logo-container {
+      align-items: center;
     }
   }
 }
