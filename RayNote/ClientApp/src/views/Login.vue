@@ -1,7 +1,6 @@
 <template>
   <div class="login-root">
-    <div class="logo">RayNote</div>
-    <div class="slogan">Record Anything In Your Life</div>
+    <LargeLogo />
     <el-form label-position="left" label-width="80px" :model="loginForm">
       <el-form-item label="Account" style="color: #fff;">
         <el-input v-model="loginForm.account"></el-input>
@@ -20,9 +19,10 @@
 </template>
 
 <script>
+import { LargeLogo } from "@/components";
 export default {
   name: "Login",
-  components: {},
+  components: { LargeLogo },
   data() {
     return {
       loginForm: {},
@@ -44,33 +44,9 @@ export default {
   align-items: center;
   justify-content: center;
   margin-top: -30px;
-  > .logo {
-    color: #fff;
-    font-size: 100px;
-    font-weight: 700;
-    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
-    margin-bottom: 15px;
-  }
-  > .slogan {
-    color: $grey;
-    font-size: 20px;
-    font-weight: 700;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-    margin-bottom: 35px;
-  }
   .link {
     text-decoration: none;
     margin-left: 20px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .login-root {
-    > .logo {
-      font-size: 80px;
-    }
-    > .slogan {
-      font-size: 16px;
-    }
   }
 }
 </style>
