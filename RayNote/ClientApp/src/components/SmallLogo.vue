@@ -56,6 +56,7 @@ export default {
   }
   > .edit {
     float: right;
+    margin-right: 8px;
   }
 }
 @media screen and (max-width: 768px) {

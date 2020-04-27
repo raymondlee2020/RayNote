@@ -35,7 +35,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button class="send-btn" type="primary" :loading="loading" @click="send()">Login</el-button>
+          <el-button class="send-btn" type="primary" :loading="loading" @click="send()">Send</el-button>
         </el-form-item>
       </el-form>
     </div>
