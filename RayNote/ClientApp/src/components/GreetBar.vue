@@ -21,11 +21,11 @@ export default {
     const now = new Date();
     const hour = now.getHours();
     console.log(hour);
-    if (5 <= hour < 12) {
+    if (hour >= 5 && hour < 12) {
       this.greet = "Good Morning, ";
-    } else if (12 <= hour < 16) {
+    } else if (hour >= 12 && hour < 16) {
       this.greet = "Good Afternoon, ";
-    } else if (16 <= hour < 20) {
+    } else if (hour >= 16 && hour < 20) {
       this.greet = "Good Evening, ";
     } else {
       this.greet = "Good Night, ";
