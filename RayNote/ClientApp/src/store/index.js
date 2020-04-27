@@ -5,11 +5,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: true
+    isLogin: true,
+    id: 0,
+    name: "",
+    token: "",
   },
   mutations: {
-    setIsLogin: (state, status) => {
-      state.isLogin = status;
+    setLogin: (state, status) => {
+      state.isLogin = true;
+      state.id = status.id;
+      state.name = status.name;
+      state.token = status.token;
     }
   },
   actions: {

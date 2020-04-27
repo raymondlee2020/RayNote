@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import BaseUrl from "@/constants";
+import { GetData, PostData } from "@/utils";
 import { LargeLogo, Footer } from "@/components";
 export default {
   name: "Login",
@@ -29,12 +31,25 @@ export default {
   },
   data() {
     return {
-      loginForm: {},
+      loginForm: {
+        account: "",
+        password: ""
+      },
       loading: false
     };
   },
   methods: {
-    login() {}
+    login: async function() {
+      console.log("HERE")
+      const data ={
+        account: this.loginForm.account,
+        password: this.loginForm.password
+      }
+      const result = await PostData(`${BaseUrl}/api/User/login`, data);
+      console.log(result)
+      this.$store.commit("setLogin", result);
+      this.$router.push("Dashboard")
+    }
   }
 };
 </script>

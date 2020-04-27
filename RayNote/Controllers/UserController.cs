@@ -5,6 +5,12 @@ using System.Threading.Tasks;
 using RayNote.DataAccessLayer;
 using RayNote.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using JWT;
+using JWT.Algorithms;
+using JWT.Serializers;
+using System.Text;
+using System.IO;
 
 namespace RayNote.Controllers
 {
@@ -13,10 +19,25 @@ namespace RayNote.Controllers
     public class UserController : ControllerBase
     {
         private readonly RayNoteDbContext _dbContext;
+        private readonly string secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+        private SHA256 sha256;
+        private IJwtEncoder jwtEncoder;
+        private IJwtDecoder jwtDecoder;
 
         public UserController(RayNoteDbContext dbContext)
         {
             _dbContext = dbContext;
+
+            sha256 = SHA256.Create();
+
+            IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
+            IJsonSerializer serializer = new JsonNetSerializer();
+            IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+            jwtEncoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+
+            var provider = new UtcDateTimeProvider();
+            IJwtValidator validator = new JwtValidator(serializer, provider);
+            jwtDecoder = new JwtDecoder(serializer, validator, urlEncoder, algorithm);
         }
 
         [HttpGet("{id}")]
@@ -28,7 +49,8 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }
@@ -38,13 +60,59 @@ namespace RayNote.Controllers
         {
             try
             {
-                _dbContext.User.Add(entity);
-                _dbContext.SaveChanges();
-                return Get(entity.Id);
+                Console.WriteLine("POST");
+                entity.Password = GetHash(sha256, entity.Password);
+                var hasData = _dbContext.User.Where(user => (user.Account == entity.Account && user.Password == entity.Password)).ToList();
+                if (hasData.Count == 0)
+                {
+                    _dbContext.User.Add(entity);
+                    _dbContext.SaveChanges();
+                    return Get(entity.Id);
+                }
+                else
+                {
+                    ErrorModel error = new ErrorModel();
+                    error.Message = "Sign Up Failed.";
+                    return new JsonResult(error);
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]LoginModel entity)
+        {
+            try
+            {
+                Console.WriteLine("login");
+                var vUser = _dbContext.User.Single(user => (user.Account == entity.Account && user.Password == GetHash(sha256, entity.Password)));
+                if (vUser != null)
+                {
+                    var data = new Dictionary<string, object>
+                    {
+                        { "id", vUser.Id }
+                    };
+                    var token = jwtEncoder.Encode(data, secret);
+                    var result = new ClientModel();
+                    result.Id = vUser.Id;
+                    result.Name = vUser.Name;
+                    result.Token = token;
+                    return new JsonResult(result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception e)
+            {
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }
@@ -66,7 +134,8 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
         }
@@ -87,9 +156,43 @@ namespace RayNote.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                TextWriter errorWriter = Console.Error;
+                errorWriter.WriteLine(e.Message);
                 return BadRequest();
             }
+        }
+
+        private static string GetHash(HashAlgorithm hashAlgorithm, string input)
+        {
+
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes
+            // and create a string.
+            var sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
+        }
+
+        // Verify a hash against a string.
+        private static bool VerifyHash(HashAlgorithm hashAlgorithm, string input, string hash)
+        {
+            // Hash the input.
+            var hashOfInput = GetHash(hashAlgorithm, input);
+
+            // Create a StringComparer an compare the hashes.
+            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+
+            return comparer.Compare(hashOfInput, hash) == 0;
         }
     }
 }

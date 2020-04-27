@@ -9,9 +9,9 @@ namespace RayNote.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required, MinLength(8)]
+        [Required]
         public string Account { get; set; }
-        [Required, MinLength(8)]
+        [Required]
         public string Password { get; set; }
         public override string ToString()
         {

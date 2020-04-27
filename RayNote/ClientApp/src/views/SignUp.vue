@@ -9,13 +9,17 @@
         <el-input v-model="signUpForm.account" placeholder="Set your account"></el-input>
       </el-form-item>
       <el-form-item label="Password">
-        <el-input v-model="signUpForm.password" placeholder="Set your password"></el-input>
+        <el-input v-model="signUpForm.password" placeholder="Set your password" type="password"></el-input>
       </el-form-item>
       <el-form-item label="Confirm">
-        <el-input v-model="signUpForm.confirmPassword" placeholder="Repeat your password"></el-input>
+        <el-input
+          v-model="signUpForm.confirmPassword"
+          placeholder="Repeat your password"
+          type="password"
+        ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button class="send-btn" plain type="primary" :loading="loading" @click="signUp">Send</el-button>
+        <el-button class="send-btn" plain type="primary" :loading="loading" @click="signUp()">Send</el-button>
       </el-form-item>
     </el-form>
     <Footer />
@@ -23,6 +27,8 @@
 </template>
 
 <script>
+import BaseUrl from "@/constants";
+import { GetData, PostData } from "@/utils";
 import { LargeLogo, Footer } from "@/components";
 export default {
   name: "SignUp",
@@ -42,7 +48,16 @@ export default {
     };
   },
   methods: {
-    signUp() {}
+    signUp: async function() {
+      const data = {
+        name: this.signUpForm.name,
+        account: this.signUpForm.account,
+        password: this.signUpForm.password
+      };
+      const result = await PostData(`${BaseUrl}/api/User`, data);
+      console.log(result);
+      this.$router.push("Login");
+    }
   }
 };
 </script>
@@ -55,7 +70,7 @@ export default {
   position: relative;
   height: 100vh;
   flex-direction: column;
-  .send-btn{
+  .send-btn {
     margin-top: 10px;
     margin-right: 80px;
   }

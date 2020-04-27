@@ -4,7 +4,7 @@
     <GreetBar />
     <div class="title">
       <div>Notes</div>
-      <i class="el-icon-plus" style="cursor: pointer;" @click.native="add()"></i>
+      <i class="el-icon-plus" style="cursor: pointer;" @click="add()"></i>
     </div>
     <el-row :gutter="20" class="notes">
       <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
@@ -49,7 +49,11 @@ export default {
     detail() {
       console.log("detail");
     },
-    add() {}
+    add() {
+      console.log("add");}
+  },
+  mounted() {
+    console.log(`Dashboard: ${JSON.stringify(this.$store.state)}`);
   }
 };
 </script>
