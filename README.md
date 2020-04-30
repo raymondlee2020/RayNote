@@ -52,16 +52,17 @@ Password: adminpass
 - 用戶閱覽筆記
 - 用戶修改筆記
 - 用戶刪除筆記
+- 加密用戶密碼以進行傳輸
 - 加密用戶密碼以進行儲存
 - 用戶登入產生JWT Token供驗證
 - 用戶須經驗證以使用服務(一項服務已驗證)
 
 #### 未實現
 - 用戶修改密碼
-- 加密用戶密碼以進行傳輸
 - 用戶可藉由傳輸圖片進行文字紀錄(使用[Azure Service](https://docs.microsoft.com/zh-tw/azure/cognitive-services/computer-vision/quickstarts-sdk/client-library?pivots=programming-language-csharp))
 - 建立行動裝置端應用程式
 
 ## 待優化
+- 用戶端錯誤訊息顯示
 - 使用Local Storage進行用戶端資料儲存
 - JWT Token攜帶資料擴充
