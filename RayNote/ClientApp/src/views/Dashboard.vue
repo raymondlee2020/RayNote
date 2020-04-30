@@ -69,6 +69,7 @@ export default {
     const notes = await GetData(
       `${BaseUrl}/api/note/owner/${this.$store.state.id}`, this.$store.state.token
     );
+    console.log(notes)
     this.notes = notes;
   }
 };

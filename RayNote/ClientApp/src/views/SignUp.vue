@@ -1,17 +1,23 @@
 <template>
   <div class="sign-up-root">
     <LargeLogo />
-    <el-form label-position="left" label-width="80px" :model="signUpForm">
+    <el-form
+      label-position="left"
+      label-width="80px"
+      :model="signUpForm"
+      ref="signUpForm"
+      :rules="rules"
+    >
       <el-form-item label="Name">
         <el-input v-model="signUpForm.name" placeholder="Please enter your name"></el-input>
       </el-form-item>
       <el-form-item label="Account">
         <el-input v-model="signUpForm.account" placeholder="Set your account"></el-input>
       </el-form-item>
-      <el-form-item label="Password">
+      <el-form-item label="Password" prop="pass">
         <el-input v-model="signUpForm.password" placeholder="Set your password" type="password"></el-input>
       </el-form-item>
-      <el-form-item label="Confirm">
+      <el-form-item label="Confirm" prop="checkPass">
         <el-input
           v-model="signUpForm.confirmPassword"
           placeholder="Repeat your password"
@@ -27,6 +33,7 @@
 </template>
 
 <script>
+import md5 from "md5";
 import BaseUrl from "@/constants";
 import { GetData, PostData } from "@/utils";
 import { LargeLogo, Footer } from "@/components";
@@ -37,7 +44,17 @@ export default {
     Footer
   },
   data() {
+    const validatePass = (rule, value, callback) => {
+      if (this.signUpForm.password !== this.signUpForm.confirmPassword) {
+        callback(new Error("Two passwords don't match!"));
+      } else {
+        callback();
+      }
+    };
     return {
+      rules: {
+        checkPass: [{ validator: validatePass, trigger: "blur" }]
+      },
       signUpForm: {
         name: "",
         account: "",
@@ -49,14 +66,19 @@ export default {
   },
   methods: {
     signUp: async function() {
-      const data = {
-        name: this.signUpForm.name,
-        account: this.signUpForm.account,
-        password: this.signUpForm.password
-      };
-      const result = await PostData(`${BaseUrl}/api/User`, data);
-      console.log(result);
-      this.$router.push("Login");
+      this.$refs["signUpForm"].validate(async valid => {
+        if (valid) {
+          const data = {
+            name: this.signUpForm.name,
+            account: this.signUpForm.account,
+            password: md5(this.signUpForm.password)
+          };
+          const result = await PostData(`${BaseUrl}/api/User`, data);
+          this.$router.push("Login");
+        } else {
+          this.$message.error("Input Error");
+        }
+      });
     }
   }
 };

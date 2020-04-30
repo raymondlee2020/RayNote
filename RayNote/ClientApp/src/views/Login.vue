@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import md5 from 'md5'
 import BaseUrl from "@/constants";
 import { GetData, PostData } from "@/utils";
 import { LargeLogo, Footer } from "@/components";
@@ -49,10 +50,9 @@ export default {
   },
   methods: {
     login: async function() {
-      console.log("HERE");
       const data = {
         account: this.loginForm.account,
-        password: this.loginForm.password
+        password: md5(this.loginForm.password)
       };
       const result = await PostData(`${BaseUrl}/api/user/login`, data);
       console.log(result);

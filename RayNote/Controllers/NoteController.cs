@@ -61,8 +61,9 @@ namespace RayNote.Controllers
             try
             {
                 var json = jwtDecoder.Decode(token, secret, verify: true);
-                Console.WriteLine(json);
-                return new JsonResult(_dbContext.Note.Where(note => note.OwnerId == id).ToList());
+                var payload = jwtDecoder.DecodeToObject<IDictionary<string, int>>(token);
+
+                return new JsonResult(_dbContext.Note.Where(note => note.OwnerId == payload["id"]).ToList());
             }
             catch (TokenExpiredException)
             {
